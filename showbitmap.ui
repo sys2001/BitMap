@@ -23,42 +23,78 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="start">
     <property name="title">
      <string>开始</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
-    <addaction name="action_3"/>
+    <addaction name="low"/>
+    <addaction name="high"/>
+    <addaction name="normal"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="settings">
     <property name="title">
      <string>设置</string>
     </property>
+    <addaction name="station"/>
+    <addaction name="delay"/>
    </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="about">
     <property name="title">
-     <string>帮助</string>
+     <string>关于</string>
     </property>
+    <addaction name="help"/>
    </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
+   <addaction name="start"/>
+   <addaction name="settings"/>
+   <addaction name="about"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="low">
    <property name="text">
     <string>低负载</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
   </action>
-  <action name="action_2">
+  <action name="high">
    <property name="text">
     <string>高负载</string>
    </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
   </action>
-  <action name="action_3">
+  <action name="normal">
    <property name="text">
     <string>正常负载</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="station">
+   <property name="text">
+    <string>站点设置</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="delay">
+   <property name="text">
+    <string>延时设置</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="help">
+   <property name="text">
+    <string>帮助</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>

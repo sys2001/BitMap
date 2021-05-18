@@ -26,15 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    showbitmap.cpp
+    showbitmap.cpp \
+    station.cpp \
+    dialog.cpp
 
 HEADERS += \
         mainwindow.h \
-    showbitmap.h
+    showbitmap.h \
+    station.h \
+    dialog.h \
+    utils.h
 
 FORMS += \
         mainwindow.ui \
-    showbitmap.ui
+    showbitmap.ui \
+    dialog.ui
 
 RESOURCES += \
     img.qrc
