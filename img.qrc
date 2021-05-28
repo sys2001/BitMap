@@ -4,5 +4,6 @@
         <file>Image/back_btn.jpeg</file>
         <file>Image/background.jpeg</file>
         <file>Image/register.jpg</file>
+        <file>Image/help.png</file>
     </qresource>
 </RCC>

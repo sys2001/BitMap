@@ -24,16 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    help_window.cpp \
         main.cpp \
         mainwindow.cpp \
     showbitmap.cpp
 
 HEADERS += \
+    help_window.h \
         mainwindow.h \
     showbitmap.h \
     utils.h
 
 FORMS += \
+    help_window.ui \
         mainwindow.ui \
     showbitmap.ui
 

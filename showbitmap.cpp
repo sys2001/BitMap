@@ -5,12 +5,15 @@
 #include <QPixmap>
 #include <QDebug>
 #include <windows.h>
+#include "help_window.h"
 int status=BEGIN;
 
 showBitmap::showBitmap(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::showBitmap)
 {
+    this->setFixedSize(670,430);
+
     ui->setupUi(this);
     //用数组存8个按钮，方便操作
     mybtn.push_back(ui->station1);
@@ -106,8 +109,8 @@ void showBitmap::stations_clear()
 //点击help菜单给出对应提示
 void showBitmap::on_help_triggered()
 {
-    QMessageBox message(QMessageBox::NoIcon,"Tip","click start menu and choose the mode");
-    message.exec();
+    help_window *subWindow = new help_window();
+    subWindow->show();
 }
 
 //点击开始按钮进行演示
@@ -154,7 +157,7 @@ void showBitmap::updateTime()
 
             data_len[cur_pos]=qrand()%16+1;
             len_label[cur_pos]->setText(QString::number(data_len[cur_pos]));
-            len_label[cur_pos]->setFont(QFont("宋体",STA_BTN_SIZE));
+            len_label[cur_pos]->setFont(QFont("宋体",12));
         }
         mybtn[cur_pos]->setStyleSheet("background-color:lightGray");
         cur_pos++;
@@ -192,13 +195,17 @@ void showBitmap::updateTime()
         }
         if(send_num==0){
             ui->rate->setText("0%");
-            ui->rate->setFont(QFont("宋体",STA_BTN_SIZE));
+            ui->rate->setFont(QFont("宋体",14));
         }
         else{
-            float rate=float(data_len_sum)/float(send_num*BLOCK_NUM+data_len_sum);
+            float rate=0;
+            if(this->mode==HIGH || send_num==BLOCK_NUM)
+                rate=float(data_len_sum)/float(1+data_len_sum);
+            else
+                rate=float(data_len_sum)/float(send_num*BLOCK_NUM+data_len_sum);
             rate*=100;
             ui->rate->setText(QString("%1").arg(rate));
-            ui->rate->setFont(QFont("宋体",STA_BTN_SIZE));
+            ui->rate->setFont(QFont("宋体",14));
         }
         oneturn=true;                                       //标志位,说明竞争期结束
         if(send_num==0){
@@ -230,7 +237,7 @@ void showBitmap::on_end_clicked()
     stations_clear();       //清空站点信息
     ui->Tips->clear();
     ui->sendstation->clear();
-
+    ui->rate->setText("");
 }
 
 void showBitmap::on_station1_clicked()
