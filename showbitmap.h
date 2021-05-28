@@ -9,7 +9,9 @@
 #include <QTime>
 #include <QFile>
 #include <QPalette>
+#include <QtGlobal>
 #include "utils.h"
+#include <QLabel>
 
 
 #define DATA_DELAY  2
@@ -59,11 +61,16 @@ private slots:
 
     void on_station8_clicked();
 
+    void on_normal_triggered();
+
+    void on_low_triggered();
+
+    void on_high_triggered();
 private:
     Ui::showBitmap *ui;
     Mode mode;
     QVector<bool> stations; //站点数组，存是否有站点需要传输数据
-
+    QVector<int> data_len;  //每个站点的数据长度
     //计时、计数
     QTimer* timer;      //定时器
     QTime* TimeRecord;  //记录时间
@@ -80,6 +87,7 @@ private:
     QPalette pal;
 
     QVector<QPushButton*> mybtn;        //指针数组，指向站点的按钮
+    QVector<QLabel*> len_label;
     QString res;                        //每次发送的结果
     //函数
     void stations_clear();
