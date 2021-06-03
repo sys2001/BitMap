@@ -4,6 +4,8 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QDebug>
+#include <QStack>
+#include <QQueue>
 #include <windows.h>
 #include "help_window.h"
 int status=BEGIN;
@@ -119,16 +121,18 @@ void showBitmap::on_begin_clicked()
     //istimestart判断当前计时器是否已经启动，如果启动则暂停当前计时
     if(!istimestart){
         timer->start(1000);
-
+        ui->begin->setText("暂停演示");
     }
     else{
         timer->stop();
+        ui->begin->setText("开始演示");
     }
     istimestart=!istimestart;
 }
 //更新定时器界面，演示过程为每1秒检测一个站点，每个站点发送数据需要2秒。
 void showBitmap::updateTime()
 {
+    static QQueue<int> ready;
     *TimeRecord = TimeRecord->addSecs(1);                   //每次加1秒
     ui->CLOCK->display(TimeRecord->toString("hh:mm:ss"));
 
@@ -151,6 +155,7 @@ void showBitmap::updateTime()
         ui->Tips->clear();
         if(stations[cur_pos]==true){
             res+=QString::number(cur_pos+1)+" ";
+            ready.push_back(cur_pos+1);
             send_num++;
             stations[cur_pos]=false;    //计算完设为false
             mybtn[cur_pos]->setText("0");
@@ -168,16 +173,33 @@ void showBitmap::updateTime()
     }
     if(send_num==0){
         ui->Tips->clear();
+        for(int i=0;i<BLOCK_NUM;i++){
+            data_len[i]=0;
+            len_label[i]->setText("");
+        }
     }
     //数据发送过程
     if(oneturn&&send_num>0){
-        if(time_flag==DATA_DELAY){
+        if(time_flag%2){
+            mybtn[ready.front()-1]->setStyleSheet("background-color:red");
+        }
+        else{
+            mybtn[ready.front()-1]->setStyleSheet("background-color:lightGray");
+        }
+        int send_time=DATA_DELAY*data_len[ready.front()-1];
+        if(time_flag==send_time/(DATA_DELAY*2)){
             send_num--;
+            mybtn[ready.front()-1]->setStyleSheet("background-color:lightGray");
+            ready.pop_front();
             time_flag=0;
+            //send_time=0;
         }
         time_flag++;
-        ui->Tips->setText("正在发送数据");
-
+        if(!ready.isEmpty()){
+            QString cur_tip="正在发送站点";
+            ui->Tips->setText(cur_tip+QString::number(ready.front())+"的数据,预计时间"
+                              +QString::number(send_time)+"秒");
+        }
         if(send_num==0){            //发送完成，开始新的一轮
             ui->Tips->setText("发送完成");
             cur_pos=0;
@@ -220,10 +242,7 @@ void showBitmap::updateTime()
             ui->Tips->setText(tip);
             res.clear();
         }
-        for(int i=0;i<BLOCK_NUM;i++){
-            data_len[i]=0;
-            len_label[i]->setText("");
-        }
+
     }
 }
 

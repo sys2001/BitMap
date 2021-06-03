@@ -18,7 +18,7 @@
 #define BLOCK_NUM 8
 #define BLOCK_WIDTH 20
 #define BLOCK_HEIGHT    20
-#define SEND_LABEL_SIZE 16
+#define SEND_LABEL_SIZE 12
 #define STA_BTN_SIZE    18
 namespace Ui {
 class showBitmap;
