@@ -9,15 +9,12 @@
 #include <QTime>
 #include <QFile>
 #include <QPalette>
+#include <QtGlobal>
 #include "utils.h"
+#include <QLabel>
 
 
-#define DATA_DELAY  2
-#define BLOCK_NUM 8
-#define BLOCK_WIDTH 20
-#define BLOCK_HEIGHT    20
-#define SEND_LABEL_SIZE 16
-#define STA_BTN_SIZE    18
+
 namespace Ui {
 class showBitmap;
 }
@@ -59,11 +56,16 @@ private slots:
 
     void on_station8_clicked();
 
+    void on_normal_triggered();
+
+    void on_low_triggered();
+
+    void on_high_triggered();
 private:
     Ui::showBitmap *ui;
     Mode mode;
     QVector<bool> stations; //站点数组，存是否有站点需要传输数据
-
+    QVector<int> data_len;  //每个站点的数据长度
     //计时、计数
     QTimer* timer;      //定时器
     QTime* TimeRecord;  //记录时间
@@ -72,6 +74,8 @@ private:
     int cur_pos;    //检测位置
     bool oneturn;   //一轮是否已经结束
     int send_num;   //一轮中需要发送数据的站点数量
+    int lowest;
+    int highest;
     //icon
     //QIcon*  DataReady;
 
@@ -80,6 +84,7 @@ private:
     QPalette pal;
 
     QVector<QPushButton*> mybtn;        //指针数组，指向站点的按钮
+    QVector<QLabel*> len_label;
     QString res;                        //每次发送的结果
     //函数
     void stations_clear();
